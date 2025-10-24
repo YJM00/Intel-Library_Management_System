@@ -6,16 +6,6 @@
 
 ---
 
-## 🧭 목차 (Contents)
-1. 개요  
-2. 구성도  
-3. 기능 설명  
-4. 시연 영상  
-5. 주요 기술  
-6. 고찰  
-
----
-
 ## 🧩 1. 개요
 
 ### 🔹 개발 배경
@@ -26,17 +16,12 @@
 ---
 
 ## 🧱 2. 구성도 (System Architecture)
-사용자 ↔ RFID ↔ Arduino(대출)
-↕
-Raspberry Pi
-↕
-Arduino(반납) ↔ 반납함
-↕
-MariaDB
+<img width="907" height="499" alt="image" src="https://github.com/user-attachments/assets/e4bad200-153a-4a24-b40c-6c25131bc808" />
+
 
 
 - **Arduino (대출 담당):** RFID 태그 인식 → 사용자 인증 → 도서 정보 요청  
-- **Arduino (반납 담당):** 반납 시 DB 로그 업데이트 및 반납함 제어  
+- **STM32 (반납 담당):** 반납 시 DB 로그 업데이트 및 반납함 제어  
 - **Raspberry Pi:** 각 아두이노와 소켓 통신을 통해 명령 및 데이터 송수신  
 - **MariaDB:** 사용자, 도서, 로그 테이블 관리  
 - **IoT 구조:** 분산된 하드웨어를 네트워크로 연결하여 중앙 관리  
@@ -46,13 +31,17 @@ MariaDB
 ## ⚙️ 3. 기능 설명
 
 ### 📖 대출 기능 (Arduino – 대출)
+<img width="1328" height="1188" alt="image" src="https://github.com/user-attachments/assets/a07b005d-2142-4b80-ba2f-750c089c683f" />
+
 1. 사용자가 RFID 카드를 태그하면 사용자 인증 진행  
 2. 도서 바코드 또는 ID 인식  
 3. Raspberry Pi 서버로 요청 전송  
 4. DB에서 사용자 및 도서 상태 확인  
 5. 대출 완료 시 로그 테이블에 기록  
 
-### 📦 반납 기능 (Arduino – 반납)
+### 📦 반납 기능 (STM32 – 반납)
+<img width="1325" height="1236" alt="image" src="https://github.com/user-attachments/assets/365508ec-fcc9-47d5-95fa-f5aade0a4218" />
+
 1. 반납함에 도서 삽입  
 2. RFID 또는 바코드를 통해 반납 도서 식별  
 3. Raspberry Pi 서버로 반납 요청 송신  
@@ -65,7 +54,7 @@ MariaDB
 
 | 구성 요소 | 역할 및 기술 |  
 |------------|---------------|  
-| **Arduino** | RFID 인식, 도서 바코드 처리, LED/서보 제어 |  
+| **Arduino,STM32** | RFID 인식, 도서 바코드 처리, LED/서보 제어 |  
 | **Raspberry Pi** | 중앙 제어 서버, Python 기반 소켓 통신, 데이터 처리 |  
 | **MariaDB** | 사용자/도서/로그 관리용 데이터베이스 |  
 | **IoT 통신** | TCP 소켓 통신, 분산 하드웨어 간 데이터 교환 |  
@@ -73,13 +62,7 @@ MariaDB
 
 ---
 
-## 🎥 5. 시연 영상
-> 프로젝트 시연 영상에서는 RFID를 통한 사용자 인증,  
-> 자동 도서 대출 및 반납 과정, DB 로그 갱신이 포함되어 있습니다.
-
----
-
-## 🧠 6. 고찰 (Review)
+## 🧠 5. 고찰 (Review)
 
 ### 💬 유종민
 > 단순한 하드웨어 제어에서 벗어나 **네트워크 프로그래밍과 IoT 시스템의 통합 구현**을 경험했습니다.  
